@@ -79,6 +79,13 @@
                     Proceed ✨
                 </button>
             </div>
+
+            <!-- Admin Secret Portal Link -->
+            <div class="pt-2">
+                <button onclick="showScreen('screen-admin-login')" class="text-xs text-pink-950/60 hover:text-pink-900 underline font-medium cursor-pointer transition">
+                    Enter my heart 🔒
+                </button>
+            </div>
         </div>
 
         <!-- SCREEN 2: AI Loading State -->
@@ -108,43 +115,43 @@
             <div id="options-container" class="space-y-2.5 max-h-64 overflow-y-auto pr-1 text-left">
                 <!-- 10 Interesting Options -->
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="1" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="His killer smile and charming vibe" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">1. His killer smile and charming vibe</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="2" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="His brilliant coding and tech intelligence" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">2. His brilliant coding and tech intelligence</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="3" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="His amazing sense of humor and wit" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">3. His amazing sense of humor and wit</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="4" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="How deeply and truly he cares about loved ones" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">4. How deeply and truly he cares about loved ones</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="5" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="His handsome style and fashion sense" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">5. His handsome style and fashion sense</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="6" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="His adventurous and fun-loving nature" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">6. His adventurous and fun-loving nature</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="7" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="His polite, respectful, and gentle manners" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">7. His polite, respectful, and gentle manners</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="8" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="His dedication and hardworking attitude" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">8. His dedication and hardworking attitude</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="9" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="His sweet and comforting voice" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">9. His sweet and comforting voice</span>
                 </label>
                 <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="10" class="text-pink-600 focus:ring-pink-500">
+                    <input type="radio" name="aminulQuality" value="Simply... everything about him!" class="text-pink-600 focus:ring-pink-500">
                     <span class="text-sm font-medium text-gray-700">10. Simply... everything about him! 🥰</span>
                 </label>
             </div>
@@ -164,22 +171,68 @@
             </p>
         </div>
 
+        <!-- SCREEN 5: Admin Password Prompt -->
+        <div id="screen-admin-login" class="hidden space-y-6 py-4">
+            <div class="text-4xl">🔐</div>
+            <h2 class="text-2xl font-bold text-pink-900">Enter Aminul's Heart</h2>
+            <p class="text-sm text-pink-950/80">Please provide your secure password to view recorded entries.</p>
+            
+            <div class="space-y-4">
+                <input type="password" id="adminPassword" placeholder="Enter password..." 
+                    class="w-full px-5 py-3 rounded-xl bg-white/70 border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-500 text-center text-lg placeholder-gray-400 shadow-inner">
+                <p id="error-msg" class="text-xs text-rose-600 font-semibold hidden">Incorrect password! Try again.</p>
+                
+                <div class="flex gap-2">
+                    <button onclick="showScreen('screen-input')" 
+                        class="w-1/2 py-3 bg-white/60 text-gray-700 font-semibold rounded-xl shadow hover:bg-white transition cursor-pointer">
+                        Back
+                    </button>
+                    <button onclick="verifyAdminPassword()" 
+                        class="w-1/2 py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-xl shadow-lg hover:from-pink-600 hover:to-rose-700 transition cursor-pointer">
+                        Access 🔑
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 6: Admin Dashboard (Recorded Names) -->
+        <div id="screen-admin-dashboard" class="hidden space-y-5 py-2">
+            <div class="text-3xl">📋</div>
+            <h2 class="text-2xl font-bold text-pink-900">Recorded Heart Entries</h2>
+            <p class="text-xs text-pink-950/80">Here are the girls who visited and submitted their choices:</p>
+
+            <div id="submissions-list" class="space-y-2.5 max-h-60 overflow-y-auto pr-1 text-left text-sm">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="clearSubmissions()" 
+                    class="w-1/2 py-2.5 bg-rose-500/20 text-rose-800 font-medium rounded-xl text-xs hover:bg-rose-500/30 transition cursor-pointer">
+                    Clear List 🗑️
+                </button>
+                <button onclick="showScreen('screen-input')" 
+                    class="w-1/2 py-2.5 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-xl text-xs shadow hover:from-pink-600 hover:to-rose-700 transition cursor-pointer">
+                    Logout / Home 🏠
+                </button>
+            </div>
+        </div>
+
     </main>
 
     <!-- JavaScript Logic -->
     <script>
+        let currentVerifiedName = "";
+
         // Generate floating pink hearts in slow motion
         function createHeart() {
             const heartsContainer = document.getElementById('hearts-container');
             const heart = document.createElement('div');
             heart.classList.add('heart');
             
-            // Random emojis or heart symbols
             const symbols = ['❤️', '💖', '💗', '💓', '💕', '🩷'];
             heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
             
             heart.style.left = Math.random() * 100 + 'vw';
-            // Slow motion animation duration between 6s and 10s
             heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
             heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
             
@@ -190,12 +243,11 @@
             }, 10000);
         }
 
-        // Spawn a heart every 400ms
         setInterval(createHeart, 400);
 
-        // Switch helper
+        // Screen Switch Helper
         function showScreen(screenId) {
-            ['screen-input', 'screen-loading', 'screen-male', 'screen-female', 'screen-exit'].forEach(id => {
+            ['screen-input', 'screen-loading', 'screen-male', 'screen-female', 'screen-exit', 'screen-admin-login', 'screen-admin-dashboard'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
             document.getElementById(screenId).classList.remove('hidden');
@@ -209,10 +261,10 @@
                 return;
             }
 
+            currentVerifiedName = nameInput;
             showScreen('screen-loading');
 
             try {
-                // Fetching gender prediction from public API (AI simulation)
                 const response = await fetch(`https://api.genderize.io/?name=${encodeURIComponent(nameInput)}`);
                 const data = await response.json();
 
@@ -220,26 +272,88 @@
                     if (data.gender === 'male') {
                         showScreen('screen-male');
                     } else {
-                        // Defaults to female flow if female or if name is unlisted/neutral
                         showScreen('screen-female');
                     }
-                }, 1500); // Artificial delay for realistic AI feel
+                }, 1500);
             } catch (error) {
-                // Fallback mechanism if network fails
                 setTimeout(() => {
                     showScreen('screen-female');
                 }, 1500);
             }
         }
 
-        // Handle female questionnaire submission
+        // Handle female questionnaire submission & record name
         function submitChoice() {
             const selected = document.querySelector('input[name="aminulQuality"]:checked');
             if (!selected) {
                 alert('Please select at least one option that you like most!');
                 return;
             }
+
+            // Save submission to localStorage
+            let submissions = JSON.parse(localStorage.getItem('aminul_heart_records') || '[]');
+            submissions.push({
+                name: currentVerifiedName,
+                choice: selected.value,
+                time: new Date().toLocaleString()
+            });
+            localStorage.setItem('aminul_heart_records', JSON.stringify(submissions));
+
             showScreen('screen-exit');
+        }
+
+        // Verify Admin Password
+        function verifyAdminPassword() {
+            const passInput = document.getElementById('adminPassword').value;
+            const errorMsg = document.getElementById('error-msg');
+
+            if (passInput === "Aminul@1") {
+                errorMsg.classList.add('hidden');
+                document.getElementById('adminPassword').value = '';
+                loadSubmissionsList();
+                showScreen('screen-admin-dashboard');
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        // Load recorded submissions into the admin dashboard
+        function loadSubmissionsList() {
+            const listContainer = document.getElementById('submissions-list');
+            const submissions = JSON.parse(localStorage.getItem('aminul_heart_records') || '[]');
+
+            if (submissions.length === 0) {
+                listContainer.innerHTML = '<p class="text-center text-gray-600 py-6 italic">No entries recorded yet.</p>';
+                return;
+            }
+
+            let html = '';
+            submissions.forEach((item, index) => {
+                html += `
+                    <div class="p-3 rounded-xl bg-white/60 border border-pink-100 shadow-sm space-y-1">
+                        <div class="flex justify-between font-bold text-pink-900">
+                            <span>${index + 1}. ${escapeHtml(item.name)}</span>
+                            <span class="text-[10px] text-gray-500 font-normal">${item.time}</span>
+                        </div>
+                        <p class="text-xs text-gray-700">Liked: <span class="font-medium text-rose-600">${escapeHtml(item.choice)}</span></p>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        // Clear recorded submissions
+        function clearSubmissions() {
+            if (confirm('Are you sure you want to clear all records?')) {
+                localStorage.removeItem('aminul_heart_records');
+                loadSubmissionsList();
+            }
+        }
+
+        // Security helper to escape HTML inputs
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
     </script>
 </body>
