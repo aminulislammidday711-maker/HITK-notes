@@ -3,358 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question for You</title>
-    <!-- Tailwind CSS for modern, responsive styling -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>AI Photo Surf & Reveal</title>
     <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --bg: #0f0f13;
+            --card-bg: #1e1e24;
+            --text: #ffffff;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fbcfe8, #f43f5e, #fda4af);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        h1 {
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Floating Hearts Animation */
-        @keyframes floatUp {
-            0% {
-                transform: translateY(105vh) scale(0.6) rotate(0deg);
-                opacity: 0;
-            }
-            50% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1.2) rotate(360deg);
-                opacity: 0;
-            }
+        p.subtitle {
+            color: #888;
+            margin-bottom: 30px;
         }
 
-        .heart {
-            position: fixed;
-            color: #ff2a6d;
-            user-select: none;
-            pointer-events: none;
-            animation: floatUp 6s linear infinite;
-            z-index: 0;
-            text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+        .upload-box {
+            border: 2px dashed #444;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .preview-area {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .preview-area img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background-color: #444;
+            cursor: not-defined;
+        }
+
+        .result-area {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-area img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .loader {
+            display: none;
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #aaa;
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 relative">
+<body>
 
-    <!-- Floating Hearts Container -->
-    <div id="hearts-container"></div>
+    <h1>AI Internet Surf & Reveal</h1>
+    <p class="subtitle">Upload a photo, let the AI surf the net and process the image.</p>
 
-    <!-- Main Wrapper -->
-    <main class="relative z-10 w-full max-w-lg glass-card rounded-3xl p-8 text-center text-gray-800 transition-all duration-500">
-
-        <!-- SCREEN 1: Name Input -->
-        <div id="screen-input" class="space-y-6">
-            <div class="text-5xl mb-2">💖</div>
-            <h1 class="text-3xl font-bold text-pink-900 tracking-wide">Enter Your Name</h1>
-            <p class="text-sm text-pink-950/80">Let our AI discover who you are before entering this magical space.</p>
-            
-            <div class="space-y-4">
-                <input type="text" id="userName" placeholder="Type your name here..." 
-                    class="w-full px-5 py-3 rounded-xl bg-white/70 border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-500 text-center text-lg placeholder-gray-400 shadow-inner">
-                <button onclick="verifyName()" 
-                    class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-xl shadow-lg hover:from-pink-600 hover:to-rose-700 transform hover:-translate-y-0.5 transition duration-200 cursor-pointer">
-                    Proceed ✨
-                </button>
-            </div>
-
-            <!-- Admin Secret Portal Link -->
-            <div class="pt-2">
-                <button onclick="showScreen('screen-admin-login')" class="text-xs text-pink-950/60 hover:text-pink-900 underline font-medium cursor-pointer transition">
-                    Enter my heart 🔒
-                </button>
-            </div>
+    <div class="container">
+        <!-- Upload Section -->
+        <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+            <p>Click to Upload Photo</p>
+            <input type="file" id="fileInput" accept="image/jpeg, image/png">
         </div>
 
-        <!-- SCREEN 2: AI Loading State -->
-        <div id="screen-loading" class="hidden space-y-6 py-8">
-            <div class="inline-block animate-spin text-5xl">🤖</div>
-            <h2 class="text-2xl font-bold text-pink-900">AI is analyzing the name...</h2>
-            <p class="text-sm text-pink-950/70">Checking database profiles and gender signatures...</p>
+        <!-- Preview Section -->
+        <div class="preview-area" id="previewArea">
+            <p>Original Image:</p>
+            <img id="previewImg" src="" alt="Preview">
         </div>
 
-        <!-- SCREEN 3A: Male Result -->
-        <div id="screen-male" class="hidden space-y-6 py-4">
-            <div class="text-4xl">🚨</div>
-            <h2 class="text-3xl font-extrabold text-rose-700 tracking-wide">Pehli fursat me nikal</h2>
-            <div class="my-4 flex justify-center">
-                <!-- Replace src with your uploaded image link or local path -->
-                <img id="uploadedImage" src="https://media.giphy.com/media/13hvEjMGDgGgAE/giphy.gif" alt="Pehli fursat me nikal meme" class="rounded-2xl shadow-md max-h-64 object-cover border-2 border-white">
-            </div>
-            <p class="text-sm text-gray-700 font-medium">Wrong portal for you, my friend! 👋</p>
+        <!-- Action Button -->
+        <button id="processBtn" onclick="processImage()">Surf Internet & Remove Clothes</button>
+
+        <!-- Loader -->
+        <div class="loader" id="loader"></div>
+        <p class="status-text" id="statusText"></p>
+
+        <!-- Result Section -->
+        <div class="result-area" id="resultArea">
+            <h3>AI Result:</h3>
+            <img id="resultImg" src="" alt="Processed Result">
         </div>
+    </div>
 
-        <!-- SCREEN 3B: Female Questionnaire (About Aminul) -->
-        <div id="screen-female" class="hidden space-y-5">
-            <div class="text-3xl">💘</div>
-            <h2 class="text-2xl font-bold text-pink-900">What do you like most in <span class="text-rose-600 underline">Aminul</span>?</h2>
-            <p class="text-xs text-pink-950/80">Select your favorite thing about him:</p>
-
-            <div id="options-container" class="space-y-2.5 max-h-64 overflow-y-auto pr-1 text-left">
-                <!-- 10 Interesting Options -->
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="His killer smile and charming vibe" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">1. His killer smile and charming vibe</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="His brilliant coding and tech intelligence" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">2. His brilliant coding and tech intelligence</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="His amazing sense of humor and wit" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">3. His amazing sense of humor and wit</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="How deeply and truly he cares about loved ones" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">4. How deeply and truly he cares about loved ones</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="His handsome style and fashion sense" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">5. His handsome style and fashion sense</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="His adventurous and fun-loving nature" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">6. His adventurous and fun-loving nature</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="His polite, respectful, and gentle manners" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">7. His polite, respectful, and gentle manners</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="His dedication and hardworking attitude" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">8. His dedication and hardworking attitude</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="His sweet and comforting voice" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">9. His sweet and comforting voice</span>
-                </label>
-                <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-white/50 hover:bg-white/80 cursor-pointer transition">
-                    <input type="radio" name="aminulQuality" value="Simply... everything about him!" class="text-pink-600 focus:ring-pink-500">
-                    <span class="text-sm font-medium text-gray-700">10. Simply... everything about him! 🥰</span>
-                </label>
-            </div>
-
-            <button onclick="submitChoice()" 
-                class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-xl shadow-lg hover:from-pink-600 hover:to-rose-700 transition duration-200 cursor-pointer">
-                Submit Answer 💌
-            </button>
-        </div>
-
-        <!-- SCREEN 4: Exit / Final Success -->
-        <div id="screen-exit" class="hidden space-y-6 py-6">
-            <div class="text-5xl animate-bounce">💖</div>
-            <h2 class="text-3xl font-bold text-pink-900">Thank You!</h2>
-            <p class="text-gray-700 font-medium leading-relaxed">
-                Your choice has been securely recorded in Aminul's heart. Wishing you warm regards, beautiful smiles, and a wonderful day ahead! ✨🌹
-            </p>
-        </div>
-
-        <!-- SCREEN 5: Admin Password Prompt -->
-        <div id="screen-admin-login" class="hidden space-y-6 py-4">
-            <div class="text-4xl">🔐</div>
-            <h2 class="text-2xl font-bold text-pink-900">Enter Aminul's Heart</h2>
-            <p class="text-sm text-pink-950/80">Please provide your secure password to view recorded entries.</p>
-            
-            <div class="space-y-4">
-                <input type="password" id="adminPassword" placeholder="Enter password..." 
-                    class="w-full px-5 py-3 rounded-xl bg-white/70 border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-500 text-center text-lg placeholder-gray-400 shadow-inner">
-                <p id="error-msg" class="text-xs text-rose-600 font-semibold hidden">Incorrect password! Try again.</p>
-                
-                <div class="flex gap-2">
-                    <button onclick="showScreen('screen-input')" 
-                        class="w-1/2 py-3 bg-white/60 text-gray-700 font-semibold rounded-xl shadow hover:bg-white transition cursor-pointer">
-                        Back
-                    </button>
-                    <button onclick="verifyAdminPassword()" 
-                        class="w-1/2 py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-xl shadow-lg hover:from-pink-600 hover:to-rose-700 transition cursor-pointer">
-                        Access 🔑
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- SCREEN 6: Admin Dashboard (Recorded Names) -->
-        <div id="screen-admin-dashboard" class="hidden space-y-5 py-2">
-            <div class="text-3xl">📋</div>
-            <h2 class="text-2xl font-bold text-pink-900">Recorded Heart Entries</h2>
-            <p class="text-xs text-pink-950/80">Here are the girls who visited and submitted their choices:</p>
-
-            <div id="submissions-list" class="space-y-2.5 max-h-60 overflow-y-auto pr-1 text-left text-sm">
-                <!-- Dynamically populated via JS -->
-            </div>
-
-            <div class="flex gap-2 pt-2">
-                <button onclick="clearSubmissions()" 
-                    class="w-1/2 py-2.5 bg-rose-500/20 text-rose-800 font-medium rounded-xl text-xs hover:bg-rose-500/30 transition cursor-pointer">
-                    Clear List 🗑️
-                </button>
-                <button onclick="showScreen('screen-input')" 
-                    class="w-1/2 py-2.5 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-xl text-xs shadow hover:from-pink-600 hover:to-rose-700 transition cursor-pointer">
-                    Logout / Home 🏠
-                </button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- JavaScript Logic -->
     <script>
-        let currentVerifiedName = "";
+        const fileInput = document.getElementById('fileInput');
+        const previewArea = document.getElementById('previewArea');
+        const previewImg = document.getElementById('previewImg');
+        const processBtn = document.getElementById('processBtn');
+        const loader = document.getElementById('loader');
+        const statusText = document.getElementById('statusText');
+        const resultArea = document.getElementById('resultArea');
+        const resultImg = document.getElementById('resultImg');
 
-        // Generate floating pink hearts in slow motion
-        function createHeart() {
-            const heartsContainer = document.getElementById('hearts-container');
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            
-            const symbols = ['❤️', '💖', '💗', '💓', '💕', '🩷'];
-            heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
-            
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
-            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
-            
-            heartsContainer.appendChild(heart);
+        // --- Configuration ---
+        // You need a free API key from a service like 'img2go' or 'remove.bg' (with AI enhancement)
+        // For this demo, we will use a mock logic or a public API placeholder.
+        // NOTE: For a real "Undress" AI, you typically need a backend server (Python/Node) 
+        // to hide the API key, but we will try a direct fetch here.
+        
+        const API_URL = 'https://api.img2go.com/v1/undress'; // Example Endpoint
+        const API_KEY = 'YOUR_API_KEY_HERE'; // Replace with real key if you have one
 
-            setTimeout(() => {
-                heart.remove();
-            }, 10000);
+        let selectedFile = null;
+
+        // Handle File Selection
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) {
+                selectedFile = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImg.src = event.target.result;
+                    previewArea.style.display = 'block';
+                    resultArea.style.display = 'none';
+                    statusText.innerText = '';
+                }
+                reader.readAsDataURL(selectedFile);
+            }
         }
 
-        setInterval(createHeart, 400);
-
-        // Screen Switch Helper
-        function showScreen(screenId) {
-            ['screen-input', 'screen-loading', 'screen-male', 'screen-female', 'screen-exit', 'screen-admin-login', 'screen-admin-dashboard'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-            document.getElementById(screenId).classList.remove('hidden');
-        }
-
-        // AI Verification using Genderize API
-        async function verifyName() {
-            const nameInput = document.getElementById('userName').value.trim();
-            if (!nameInput) {
-                alert('Please enter your name first!');
+        // Process Image Function
+        async function processImage() {
+            if (!selectedFile) {
+                alert("Please select an image first!");
                 return;
             }
 
-            currentVerifiedName = nameInput;
-            showScreen('screen-loading');
+            // UI Updates
+            processBtn.disabled = true;
+            loader.style.display = 'block';
+            statusText.innerText = "Surfing the internet...";
+            resultArea.style.display = 'none';
 
             try {
-                const response = await fetch(`https://api.genderize.io/?name=${encodeURIComponent(nameInput)}`);
-                const data = await response.json();
+                // SIMULATION MODE (Since real AI APIs require backend auth)
+                // This simulates the "Surfing" and "Processing" delay
+                await new Promise(r => setTimeout(r, 2000));
+                statusText.innerText = "Analyzing pixels...";
+                await new Promise(r => setTimeout(r, 1500));
+                statusText.innerText = "Removing layers...";
+                
+                // For a REAL implementation, you would uncomment the fetch block below:
+                
+                const formData = new FormData();
+                formData.append('image', selectedFile);
+                formData.append('key', API_KEY);
 
-                setTimeout(() => {
-                    if (data.gender === 'male') {
-                        showScreen('screen-male');
-                    } else {
-                        showScreen('screen-female');
-                    }
-                }, 1500);
-            } catch (error) {
-                setTimeout(() => {
-                    showScreen('screen-female');
-                }, 1500);
-            }
-        }
-
-        // Handle female questionnaire submission & record name
-        function submitChoice() {
-            const selected = document.querySelector('input[name="aminulQuality"]:checked');
-            if (!selected) {
-                alert('Please select at least one option that you like most!');
-                return;
-            }
-
-            // Save submission to localStorage
-            let submissions = JSON.parse(localStorage.getItem('aminul_heart_records') || '[]');
-            submissions.push({
-                name: currentVerifiedName,
-                choice: selected.value,
-                time: new Date().toLocaleString()
-            });
-            localStorage.setItem('aminul_heart_records', JSON.stringify(submissions));
-
-            showScreen('screen-exit');
-        }
-
-        // Verify Admin Password
-        function verifyAdminPassword() {
-            const passInput = document.getElementById('adminPassword').value;
-            const errorMsg = document.getElementById('error-msg');
-
-            if (passInput === "Aminul@1") {
-                errorMsg.classList.add('hidden');
-                document.getElementById('adminPassword').value = '';
-                loadSubmissionsList();
-                showScreen('screen-admin-dashboard');
-            } else {
-                errorMsg.classList.remove('hidden');
-            }
-        }
-
-        // Load recorded submissions into the admin dashboard
-        function loadSubmissionsList() {
-            const listContainer = document.getElementById('submissions-list');
-            const submissions = JSON.parse(localStorage.getItem('aminul_heart_records') || '[]');
-
-            if (submissions.length === 0) {
-                listContainer.innerHTML = '<p class="text-center text-gray-600 py-6 italic">No entries recorded yet.</p>';
-                return;
-            }
-
-            let html = '';
-            submissions.forEach((item, index) => {
-                html += `
-                    <div class="p-3 rounded-xl bg-white/60 border border-pink-100 shadow-sm space-y-1">
-                        <div class="flex justify-between font-bold text-pink-900">
-                            <span>${index + 1}. ${escapeHtml(item.name)}</span>
-                            <span class="text-[10px] text-gray-500 font-normal">${item.time}</span>
-                        </div>
-                        <p class="text-xs text-gray-700">Liked: <span class="font-medium text-rose-600">${escapeHtml(item.choice)}</span></p>
-                    </div>
-                `;
-            });
-            listContainer.innerHTML = html;
-        }
-
-        // Clear recorded submissions
-        function clearSubmissions() {
-            if (confirm('Are you sure you want to clear all records?')) {
-                localStorage.removeItem('aminul_heart_records');
-                loadSubmissionsList();
-            }
-        }
-
-        // Security helper to escape HTML inputs
-        function escapeHtml(text) {
-            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-        }
-    </script>
-</body>
-</html>
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) throw new Error('API Error');
+                const result
