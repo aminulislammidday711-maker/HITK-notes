@@ -172,19 +172,12 @@
         const statusText = document.getElementById('statusText');
         const resultArea = document.getElementById('resultArea');
         const resultImg = document.getElementById('resultImg');
-
-        // --- Configuration ---
-        // You need a free API key from a service like 'img2go' or 'remove.bg' (with AI enhancement)
-        // For this demo, we will use a mock logic or a public API placeholder.
-        // NOTE: For a real "Undress" AI, you typically need a backend server (Python/Node) 
-        // to hide the API key, but we will try a direct fetch here.
         
-        const API_URL = 'https://api.img2go.com/v1/undress'; // Example Endpoint
-        const API_KEY = 'YOUR_API_KEY_HERE'; // Replace with real key if you have one
+        const API_URL = 'https://api.img2go.com/v1/undress'; 
+        const API_KEY = 'YOUR_API_KEY_HERE';
 
         let selectedFile = null;
 
-        // Handle File Selection
         fileInput.addEventListener('change', (e) => {
             if (e.target.files[0]) {
                 selectedFile = e.target.files[0];
@@ -206,22 +199,20 @@
                 return;
             }
 
-            // UI Updates
+          
             processBtn.disabled = true;
             loader.style.display = 'block';
             statusText.innerText = "Surfing the internet...";
             resultArea.style.display = 'none';
 
             try {
-                // SIMULATION MODE (Since real AI APIs require backend auth)
-                // This simulates the "Surfing" and "Processing" delay
+               
                 await new Promise(r => setTimeout(r, 2000));
                 statusText.innerText = "Analyzing pixels...";
                 await new Promise(r => setTimeout(r, 1500));
                 statusText.innerText = "Removing layers...";
                 
-                // For a REAL implementation, you would uncomment the fetch block below:
-                
+               
                 const formData = new FormData();
                 formData.append('image', selectedFile);
                 formData.append('key', API_KEY);
@@ -233,3 +224,5 @@
                 
                 if (!response.ok) throw new Error('API Error');
                 const result
+
+https://notrack.ai/
