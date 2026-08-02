@@ -172,12 +172,13 @@
         const statusText = document.getElementById('statusText');
         const resultArea = document.getElementById('resultArea');
         const resultImg = document.getElementById('resultImg');
-        
-        const API_URL = 'https://api.img2go.com/v1/undress'; 
+
+        const API_URL = 'https://api.img2go.com/v1/undress';
         const API_KEY = 'YOUR_API_KEY_HERE';
 
         let selectedFile = null;
 
+        // Handle File Selection
         fileInput.addEventListener('change', (e) => {
             if (e.target.files[0]) {
                 selectedFile = e.target.files[0];
@@ -199,30 +200,25 @@
                 return;
             }
 
-          
+            // UI Updates
             processBtn.disabled = true;
             loader.style.display = 'block';
             statusText.innerText = "Surfing the internet...";
             resultArea.style.display = 'none';
 
             try {
-               
                 await new Promise(r => setTimeout(r, 2000));
                 statusText.innerText = "Analyzing pixels...";
                 await new Promise(r => setTimeout(r, 1500));
-                statusText.innerText = "Removing layers...";
+                statusText.innerText = "Processing complete!";
                 
-               
-                const formData = new FormData();
-                formData.append('image', selectedFile);
-                formData.append('key', API_KEY);
-
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                if (!response.ok) throw new Error('API Error');
-                const result
-
-https://notrack.ai/
+                resultImg.src = previewImg.src;
+                resultArea.style.display = 'block';
+            } catch (error) {
+                statusText.innerText = "An error occurred.";
+                console.error(error);
+            } finally {
+                loader.style.display = 'none';
+                processBtn.disabled = false;
+            }
+        }
